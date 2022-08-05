@@ -12,16 +12,15 @@ const int INF = 1e9;
 //0835
 int M,N;
 char maps[4][4];
-int idn[4][4];
 int visited[4][4];
 int maxRet=0;
-
+int k;
 
 
 int go(int y,int x){
 	int dy=0,dx=0;
-	if(idn[y][x]==0) dy=1;
-	else dx=1;
+	if(k&(1<<(N*y+x))) dx=1;
+	else dy=1;
 	
 	string sum ="";
 	sum+=maps[y][x];
@@ -31,7 +30,9 @@ int go(int y,int x){
 		int nx = x+dx;
 		
 		if(ny<0||ny>=M||nx<0||nx>=N) break;
-		if(idn[ny][nx]!=idn[y][x]) break;
+		bool A = (k&(1<<(N*y+x)));
+		bool B = (k&(1<<(N*ny+nx)));
+		if((A^B)==1) break;
 		if(visited[ny][nx]) break;
 		
 		visited[ny][nx]=1;
@@ -42,14 +43,18 @@ int go(int y,int x){
 	return stoi(sum);
 }
 
-void dfs(int y,int x){
+
+void solve(){
+	cin>>M>>N;
 	
-	if(x>=N){
-		y+=1;
-		x=0;
-	}	
-	
-	if(y>=M){
+
+	rep(i,0,M)
+		rep(j,0,N)
+			cin>>maps[i][j];
+			
+			
+	for(k=0;k<(1<<(M*N));k++){
+		
 		int sum=0;
 		memset(visited,0,sizeof(visited));
 		rep(i,0,M)
@@ -58,24 +63,8 @@ void dfs(int y,int x){
 					sum+=go(i,j);
 				}
 		maxRet=max(maxRet,sum);
-		return;
-	}
-	
-	dfs(y,x+1);
-	
-	idn[y][x]=1;
-	dfs(y,x+1);
-	idn[y][x]=0;
-}
-
-void solve(){
-	cin>>M>>N;
-	
-	memset(idn,0,sizeof(idn));
-	rep(i,0,M)
-		rep(j,0,N)
-			cin>>maps[i][j];
-	dfs(0,0);
+	}		
+			
 	
 	cout<<maxRet;
 }
