@@ -1,54 +1,39 @@
-#include<stdio.h>
-#include<iostream>
-#include<string>
-#include<algorithm>
-#include<stdlib.h>
-#include<memory.h>
-#pragma warning(disable:4996)
+#include<bits/stdc++.h>
 using namespace std;
 
-#define MAX 101
-#define INF 999999
-#define CAPACITY 100001
+#define rep(i,x,n) for(int i=x;i<n;i++)
+#define f first
+#define s second
 
-int cache[CAPACITY][MAX];
-int w[MAX];
-int v[MAX];
+typedef long long ll;
+typedef pair<int, int> pi;
+typedef tuple<int,int,int> ti;
+const int INF = 1e9;
 
-int len;
+int N,K;
 
-int dp(int K, int pos) {
+int dp[100001];
 
-	if (pos == len + 1)
-		return 0;
 
-	if (cache[K][pos] != -1)
-		return cache[K][pos];
-
-	int tmp = dp(K, pos + 1);
-
-	if (K >= w[pos]) {
-		tmp = max(tmp, dp(K - w[pos], pos + 1) + v[pos]);
+void solve(){
+	cin>>N>>K;
+	
+	rep(i,0,N){
+		int W,V;cin>>W>>V;
+	
+		for(int j=K;j>=W;j--){
+			dp[j]=max(dp[j],dp[j-W]+V);
+		}
 	}
-
-	cache[K][pos] = tmp;
-	return tmp;
+	
+	cout<<dp[K];
 }
 
 int main() {
-	int k;
-	scanf("%d %d", &len, &k);
 
-	memset(cache, -1, sizeof(cache));
-	
+	ios_base::sync_with_stdio(false);
+    cout.tie(nullptr);
+    cin.tie(nullptr);
 
-	for (int i = 1; i <= len; i++) {
-		int wei, val;
-		scanf("%d %d", &wei, &val);
-		w[i] = wei;
-		v[i] = val;
-	}
-
-	printf("%d\n",dp(k,0));
-	return 0;
+	solve();
 }
