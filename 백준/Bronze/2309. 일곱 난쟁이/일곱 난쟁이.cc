@@ -1,46 +1,43 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define ll long long
+#define rep(i,x,n) for(int i=x;i<n;i++)
+#define f first
+#define s second
+
+typedef long long ll;
+typedef pair<int, int> pi;
+typedef tuple<int,int,int> ti;
+const int INF = 1e9;
+
+int a[9];
+void solve(){
+	
+	rep(i,0,9)
+		cin>>a[i];
+	
+	sort(a,a+9);
+		
+	do{
+		int sum=0;
+		
+		rep(i,0,7) sum+=a[i];
+		
+		if(sum==100) break;
+	}while(next_permutation(a,a+9));
+	
+	rep(i,0,7)
+		cout<<a[i]<<"\n";
+	
+	
+	
+}
 
 int main() {
 
-	vector<int> person(9,0);
-	int totalSum=0;
-	for(int i=0; i<9; i++){
-		cin>>person[i];
-		totalSum+=person[i];
-	}
-	
-	bool isOut=false;
-	vector<int> result;
-	for(int i=0; i<9; i++){
-		for(int j=i+1; j<9; j++){
-			int twoSum = person[i]+person[j];
-			
-			if(totalSum-twoSum==100){
-				
-				for(int k=0; k<9; k++){
-					
-					if(k!=i&&k!=j)
-						result.push_back(person[k]);
-					
-				}
-			
-				isOut=true;	
-				break;
-				
-			}
-		}
-		
-		if(isOut) break;
-	}
-	
-	
-	sort(result.begin(), result.end());
-	
-	for(int i=0; i<result.size(); i++)
-		cout<<result[i]<<"\n";
-	
-	return 0;
+	ios_base::sync_with_stdio(false);
+    cout.tie(nullptr);
+    cin.tie(nullptr);
+
+	solve();
 }
