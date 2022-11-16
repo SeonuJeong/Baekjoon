@@ -1,4 +1,4 @@
-# [Silver III] 큰 수 A+B (2) - 15353 
+# [Silver IV] 큰 수 A+B (2) - 15353 
 
 [문제 링크](https://www.acmicpc.net/problem/15353) 
 
