@@ -6,8 +6,8 @@ using namespace std;
 #define s second
 
 typedef long long ll;
-typedef pair<ll, ll> pi;
-typedef tuple<ll,ll,ll> ti;
+typedef pair<int, int> pi;
+typedef tuple<int,int,int> ti;
 const int INF = 1e9;
 
 int N,k;
@@ -18,17 +18,17 @@ void solve(){
 	cin>>N>>k;
 	
 	rep(i,0,N){
-		ll id,w; cin>>id>>w;
+		int id,w; cin>>id>>w;
 		v.push_back({id,w});
 	}
 
-	for(ll i=0;i<N&&i<k;i++)
+	for(int i=0;i<N&&i<k;i++)
 		minheap.push(make_tuple(v[i].s,i+1,v[i].f));
 	
 	ll ret=0;
-	ll cnt=1;
+	int cnt=1;
 	rep(i,k,N){
-		ll w,id,kth;
+		int w,id,kth;
 		tie(w,kth,id)=minheap.top();
 		minheap.pop();
 		
@@ -37,17 +37,17 @@ void solve(){
 	}
 	
 	while(minheap.size()){
-		ll w,id,kth;
+		int w,id,kth;
 		tie(w,kth,id)=minheap.top();
 		minheap.pop();
 		pq.push(make_tuple(w,-kth,id));
 	}
 	
 	while(pq.size()){
-		ll w,id,kth;
+		int w,id,kth;
 		tie(w,kth,id)=pq.top();
 		pq.pop();
-		ret+=cnt*id;
+		ret+=1L*cnt*id;
 		cnt++;
 	}
 	
