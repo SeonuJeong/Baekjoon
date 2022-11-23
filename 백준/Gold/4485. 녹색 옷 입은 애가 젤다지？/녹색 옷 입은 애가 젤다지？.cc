@@ -1,84 +1,45 @@
-#include<bits/stdc++.h>
-using namespace std;
+#include <cstdio> 
+#include <algorithm> 
+#include <vector>
+#include <queue>
+using namespace std;  
+const int max_n = 130; 
+int N, INF = 987654321, a[max_n][max_n],dist[max_n][max_n], t; 
+const int dy[] = {-1, 0, 1, 0};
+const int dx[] = {0, 1, 0, -1};
+priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;  
 
-#define rep(i,x,n) for(int i=x;i<n;i++)
-#define f first
-#define s second
-
-typedef long long ll;
-typedef pair<int, int> pi;
-typedef tuple<int,int,int> ti;
-const int INF = 1e9;
-
-int N;
-int dy[4]={1,0,-1,0};
-int dx[4]={0,1,0,-1};
-int dist[150][150];
-int maps[150][150];
-int visited[150][150];
-int cnt=1;
-int solve(){
-	cin>>N;
-	if(N==0)
-		return 0;
-		
-	fill(&dist[0][0],&dist[0][0]+150*150,INF);
-	memset(visited,0,sizeof(visited));
-	rep(i,0,N)
-		rep(j,0,N)
-			cin>>maps[i][j];
-			
-	dist[0][0]=maps[0][0];
-	
-	for(int i=0;i<(N*N)-1;i++){
-		int hy,hx,val=INF;
-		
-		rep(y,0,N)
-			rep(x,0,N)
-				if(val>dist[y][x]&&!visited[y][x]){
-					val=dist[y][x];
-					hy=y;
-					hx=x;
-				}
-		
-		//cout<<"hy: "<<hy<<" hx: "<<hx<<"\n";
-		visited[hy][hx]=true;
-		
-		rep(y,0,N)
-			rep(x,0,N){
-				int d=INF;
-				if(abs(y-hy)+abs(x-hx)==1)
-					d=maps[y][x];
-					
-				if(visited[y][x]) continue;
-				if(d==INF) continue;
-				if(dist[y][x]>dist[hy][hx]+d)
-					dist[y][x]=dist[hy][hx]+d;
-			}
-		
-	}
-	
-	
-//	rep(i,0,N){
-//		rep(j,0,N)
-//			cout<<dist[i][j]<<" ";
-//		cout<<"\n"; 
-//	}
-		
-	
-	cout<<"Problem "<<cnt<<": "<<dist[N-1][N-1]<<"\n";
-	cnt++;
-
-	return 1;
-}
-
-int main() {
-
-	ios_base::sync_with_stdio(false);
-    cout.tie(nullptr);
-    cin.tie(nullptr);
-
-	while(solve()){
-		
-	}
-}
+int main(){ 
+    while(++t){
+        scanf("%d", &N);
+        if(N == 0)return 0;  
+        fill(&a[0][0], &a[0][0] + max_n * max_n, 0); 
+        fill(&dist[0][0], &dist[0][0] + max_n * max_n, INF); 
+        for(int i = 0; i < N; i++){
+            for(int j = 0; j < N; j++){
+                scanf("%d", &a[i][j]); 
+            }
+        }    
+        pq.push(make_pair(a[0][0], 0));
+        dist[0][0] = a[0][0]; 
+        while(pq.size()){ 
+            int herey = pq.top().second / 1000;
+            int herex = pq.top().second % 1000; 
+            int here_dist = pq.top().first;
+            pq.pop();
+            if(dist[herey][herex] != here_dist) continue;
+            for(int i = 0; i < 4; i++){
+                int ny = herey + dy[i]; 
+                int nx = herex + dx[i];  
+                if(ny < 0 || ny >= N || nx < 0 || nx >= N) continue; 
+                int _dist = a[ny][nx]; 
+                if(dist[ny][nx] > dist[herey][herex] + _dist){
+                    dist[ny][nx] = dist[herey][herex] + _dist; 
+                    pq.push(make_pair(dist[ny][nx], ny * 1000 + nx));    
+                }   
+            } 
+        } 
+        printf("Problem %d: %d\n", t, dist[N - 1][N - 1]);  
+    }
+	return 0; 
+} 
