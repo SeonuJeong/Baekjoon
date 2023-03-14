@@ -1,53 +1,46 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define ll unsigned long long
+#define rep(i,x,n) for(int i=x;i<n;i++)
+#define f first
+#define s second
+
+typedef long long ll;
+typedef pair<int, int> pi;
+typedef tuple<int,int,int> ti;
 const int INF = 1e9;
 
 ll A,B,C;
 
-ll func(ll n){
+ll go(ll a,ll b){
 	
-	if(n==1){
-		return A%C;
-	}
+	if(b==0)
+		return 1;
 	
 	
-	if(n%2==0){
-		return (func(n/2)*func(n/2))%C;
-	}
+	if(b%2)
+		return (go(a,b-1)*a)%C;
 	else{
-		return ((A%C)*func(n-1))%C;
+		ll ret = go(a,b/2)%C;
+		return (ret*ret)%C;
 	}
-	
+		
 }
 
 void solve(){
-
+	
 	cin>>A>>B>>C;
 	
-	if(A%C==0){
-		cout<<"0\n";
-		return;
-	}
 	
-	cout<<func(B);
+	cout<<go(A,B)<<"\n";
+	
 }
-
-
 
 int main() {
 
-	ios::sync_with_stdio(false);
+	ios_base::sync_with_stdio(false);
     cout.tie(nullptr);
     cin.tie(nullptr);
 
-//	int t,i=1;
-//	cin>>t;
-//	while(t--){
-//		//cout<<"Case #"<<i<<": ";
-//		solve();
-//		i++;
-//	}
 	solve();
 }
